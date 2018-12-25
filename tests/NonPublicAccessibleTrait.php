@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\WebhookNotification\Tests;
+namespace Laravel\Settings\Tests;
 
 use InvalidArgumentException;
 use ReflectionMethod;

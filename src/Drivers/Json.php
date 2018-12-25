@@ -4,7 +4,6 @@ namespace Laravel\Settings\Drivers;
 
 use Illuminate\Filesystem\Filesystem;
 use InvalidArgumentException;
-use Laravel\Settings\Contracts\Driver;
 use RuntimeException;
 
 /**

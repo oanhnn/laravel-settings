@@ -3,7 +3,7 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Setting driver
+    | Setting default store
     |--------------------------------------------------------------------------
     |
     | Select where to store the settings.
@@ -11,7 +11,7 @@ return [
     | Supported: "database", "json", "array", "memory", "cache"
     |
     */
-    'driver' => 'cache',
+    'driver' => 'database',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,13 +34,14 @@ return [
     | Cache driver
     |--------------------------------------------------------------------------
     |
-    | Options for cache driver. Enter which connection to use, null means
-    | the default driver.
+    | Options for cache store. Enter which store to use, null means
+    | the default store.
     |
     */
     'cache' => [
-        'driver' => null,
-        'cache_key' => 'app_settings',
+        'store' => null,
+        'key' => 'app_settings',
+        'expired' => null,
         'failback' => 'database',
     ],
 
@@ -53,7 +54,7 @@ return [
     |
     */
     'json' => [
-        'path' => storage_path() . '/app/settings.json',
+        'path' => storage_path('app/settings.json'),
     ],
 
     /*

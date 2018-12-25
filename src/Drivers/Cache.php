@@ -3,7 +3,6 @@
 namespace Laravel\Settings\Drivers;
 
 use Illuminate\Contracts\Cache\Repository;
-use Laravel\Settings\Contracts\Driver;
 
 /**
  * Class Cache
@@ -33,9 +32,9 @@ class Cache extends Driver
 
     /**
      * Cache constructor.
-     * @param \Illuminate\Contracts\Cache\Repository    $store
-     * @param string                                    $key
-     * @param \Laravel\Settings\Contracts\Driver|null   $failback
+     * @param \Illuminate\Contracts\Cache\Repository  $store
+     * @param string                                  $key
+     * @param \Laravel\Settings\Drivers\Driver|null   $failback
      */
     public function __construct(Repository $store, string $key, Driver $failback = null)
     {

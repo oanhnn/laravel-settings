@@ -1,13 +1,13 @@
 <?php
 
-namespace Laravel\Settings\Contracts;
+namespace Laravel\Settings\Drivers;
 
 use Illuminate\Support\Arr;
 
 /**
  * Class Driver
  *
- * @package     Laravel\Settings\Contracts
+ * @package     Laravel\Settings\Drivers
  * @author      Oanh Nguyen <oanhnn.bk@gmail.com>
  * @license     The MIT license
  */
@@ -41,9 +41,18 @@ abstract class Driver
      * @param  mixed $default Optional default value.
      * @return mixed
      */
-    public function get(string $key, $default = null)
+    public function get($key, $default = null)
     {
         $this->load();
+
+        if (is_array($key)) {
+            $result = [];
+            foreach ($key as $k) {
+                Arr::set($result, $k, Arr::get($this->data, $k));
+            }
+
+            return $result;
+        }
 
         return Arr::get($this->data, $key, $default);
     }
@@ -64,15 +73,21 @@ abstract class Driver
     /**
      * Set a specific key to a value in the settings data.
      *
-     * @param string $key Key string or associative array of key => value
-     * @param mixed $value
+     * @param string|array $key   Key string or associative array of key => value
+     * @param mixed        $value Optional only if the first argument is an array
      */
-    public function set(string $key, $value)
+    public function set($key, $value = null)
     {
         $this->load();
         $this->unsaved = true;
 
-        Arr::set($this->data, $key, $value);
+        if (is_array($key)) {
+            foreach ($key as $k => $v) {
+                Arr::set($this->data, $k, $v);
+            }
+        } else {
+            Arr::set($this->data, $key, $value);
+        }
     }
 
     /**
@@ -117,7 +132,7 @@ abstract class Driver
      */
     public function save()
     {
-        if (!$this->unsaved) {
+        if (!$this->unsaved || !$this->loaded) {
             // either nothing has been changed, or data has not been loaded, so
             // do nothing by returning early
             return;
@@ -136,6 +151,7 @@ abstract class Driver
         if (!$this->loaded || $force) {
             $this->data = $this->read();
             $this->loaded = true;
+            $this->unsaved = false;
         }
     }
 

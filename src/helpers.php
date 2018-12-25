@@ -12,7 +12,7 @@ if (!function_exists('settings')) {
      */
     function settings($key = null, $default = null)
     {
-        /** @var \Laravel\Settings\SettingsManager $settings */
+        /** @var \Laravel\Settings\Manager $settings */
         $settings = app('settings');
 
         if (is_null($key)) {

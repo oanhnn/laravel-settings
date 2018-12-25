@@ -5,7 +5,6 @@ namespace Laravel\Settings\Drivers;
 use Closure;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Arr;
-use Laravel\Settings\Contracts\Driver;
 use UnexpectedValueException;
 
 /**

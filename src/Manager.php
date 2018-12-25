@@ -2,19 +2,20 @@
 
 namespace Laravel\Settings;
 
-use Illuminate\Support\Manager;
+use Illuminate\Support\Manager as BaseManage;
+use Laravel\Settings\Drivers\Cache;
 use Laravel\Settings\Drivers\Database;
 use Laravel\Settings\Drivers\Json;
 use Laravel\Settings\Drivers\Memory;
 
 /**
- * Class SettingsManager
+ * Class Manager
  *
  * @package     Laravel\Settings
  * @author      Oanh Nguyen <oanhnn.bk@gmail.com>
  * @license     The MIT license
  */
-class SettingsManager extends Manager
+class Manager extends BaseManage
 {
     /**
      * Get the default driver name.
@@ -29,7 +30,7 @@ class SettingsManager extends Manager
     /**
      * @return Json
      */
-    public function createJsonDriver()
+    protected function createJsonDriver()
     {
         $path = config('settings.json.path');
 
@@ -39,7 +40,7 @@ class SettingsManager extends Manager
     /**
      * @return Database
      */
-    public function createDatabaseDriver()
+    protected function createDatabaseDriver()
     {
         $connection = $this->app['db']->connection(config('settings.database.connection'));
         $table = config('settings.database.table');
@@ -52,7 +53,7 @@ class SettingsManager extends Manager
     /**
      * @return Memory
      */
-    public function createMemoryDriver()
+    protected function createMemoryDriver()
     {
         return new Memory();
     }
@@ -60,12 +61,16 @@ class SettingsManager extends Manager
     /**
      * @return Memory
      */
-    public function createArrayDriver()
+    protected function createArrayDriver()
     {
         return $this->createMemoryDriver();
     }
 
-    public function createCacheDriver()
+    /**
+     * @return Cache
+     */
+    protected function createCacheDriver()
     {
+        // TODO
     }
 }

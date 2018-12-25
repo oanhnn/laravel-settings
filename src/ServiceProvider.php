@@ -2,16 +2,17 @@
 
 namespace Laravel\Settings;
 
-use Illuminate\Support\ServiceProvider;
+use Carbon\Carbon;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
 /**
- * Class SettingsServiceProvider
+ * Class ServiceProvider
  *
  * @package     Laravel\Settings
  * @author      Oanh Nguyen <oanhnn.bk@gmail.com>
  * @license     The MIT license
  */
-class SettingsServiceProvider extends ServiceProvider
+class ServiceProvider extends IlluminateServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -28,7 +29,7 @@ class SettingsServiceProvider extends ServiceProvider
 
         $this->publishes([
             $dir . '/database/migrations/create_settings_table.php'
-            => database_path('migrations/' . date('Y_m_d_His') . '_create_settings_table.php'),
+            => database_path('migrations/' . Carbon::now()->format('Y_m_d_His') . '_create_settings_table.php'),
         ], 'migration');
 
         // Override config
@@ -53,10 +54,10 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(dirname(__DIR__) . '/database/config/settings.php', 'settings');
+        $this->mergeConfigFrom(dirname(__DIR__) . '/config/settings.php', 'settings');
 
         $this->app->singleton('settings.manager', function ($app) {
-            return new SettingsManager($app);
+            return new Manager($app);
         });
 
         $this->app->singleton('settings', function ($app) {

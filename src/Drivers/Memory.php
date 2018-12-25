@@ -2,8 +2,6 @@
 
 namespace Laravel\Settings\Drivers;
 
-use Laravel\Settings\Contracts\Driver;
-
 /**
  * Class Memory
  *
